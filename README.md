@@ -19,14 +19,31 @@ extracción, hashing con scrypt, alertas IA calibradas ERROR/OBSERVACION.
 cd contia-backend
 cp .env.example .env
 # completar DATABASE_URL, JWT_SECRET, ANTHROPIC_API_KEY, credenciales S3
+```
+
+**Windows sin WSL:** instalá ignorando los scripts de compilación nativa (evita el error de `canvas`/GTK):
+```bash
+npm install --ignore-scripts
+```
+Y en tu `.env`, agregá:
+```
+PDF_EXTRACTION_MODE=mock
+```
+Así el servidor arranca normal y la extracción de PDF devuelve cuentas de prueba en vez de leer el archivo real —
+suficiente para probar login, empresas, comparación e informes. La extracción real la probás cuando subas a Render.
+
+**Mac/Linux/WSL:** instalación normal, sin mock:
+```bash
 npm install
+```
+
+```bash
 npm run migrate   # crea las tablas (migrations/001_init.sql)
 npm run dev        # http://localhost:4000
 ```
 
-Nota sobre `canvas`: requiere librerías nativas del sistema (cairo, pango, etc.). En Linux:
-`apt-get install libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev`.
-El `Dockerfile` incluido ya las instala para el deploy en Render.
+Nota sobre `canvas` en producción: requiere librerías nativas del sistema (cairo, pango, etc.). El `Dockerfile`
+incluido ya las instala para el deploy en Render — ahí no hace falta `PDF_EXTRACTION_MODE=mock`.
 
 ## 3. Frontend
 

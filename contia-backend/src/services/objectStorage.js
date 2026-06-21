@@ -9,6 +9,9 @@ const s3 = new S3Client({
     accessKeyId: env.s3.accessKeyId,
     secretAccessKey: env.s3.secretAccessKey,
   },
+  // Necesario para Supabase Storage y la mayoría de los proveedores S3-compatibles
+  // que no son AWS (Cloudflare R2, Backblaze, etc.).
+  forcePathStyle: true,
 });
 
 export async function subirArchivo(buffer, key, contentType) {
